@@ -1,7 +1,7 @@
 """
 Caleb Webster's Fantastic Age Calculator
 something/something/2020
-This program calculates your exact age and how many days you've been alive.
+This program calculates your exact age and how many days you've lived.
 """
 
 from datetime import datetime as d

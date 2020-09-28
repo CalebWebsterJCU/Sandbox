@@ -1,0 +1,18 @@
+BoxLayout:
+	orientation: "vertical"
+	Label:
+		id: welcome_message_box
+		text: app.welcome_message
+		halign: "center"
+	BoxLayout:
+		orientation: "horizontal"
+		TextInput:
+			id: date_input_box
+			multiline: False
+		Button:
+			id: calc_age_button
+			text: "Calculate"
+			on_press: app.handle_calculate()
+	Label:
+		id: age_output_box
+		text: app.age_output_text
