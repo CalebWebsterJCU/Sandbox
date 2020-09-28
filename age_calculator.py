@@ -12,8 +12,8 @@ YELLOW = '\033[93m'
 RED = '\033[91m'
 END = '\033[0m'
 
-CURRENT_DATE = d.now()
-CURRENT_DATE_STRING = f"{CURRENT_DATE.day:02}/{CURRENT_DATE.month:02}/{CURRENT_DATE.year}"
+CURRENT_DATE_TIME = d.now()
+CURRENT_DATE = CURRENT_DATE_TIME.day, CURRENT_DATE_TIME.month, CURRENT_DATE_TIME.year
 MONTHS_DICT = {1: 31, 2: 28, 3: 31,
                4: 30, 5: 31, 6: 30,
                7: 31, 8: 31, 9: 30,
@@ -25,16 +25,37 @@ def main():
     user's exact age and the number of days they have lived."""
     print("Welcome to Caleb Webster's Fantastic Age Calculator!")
     print("Please enter your date of birth (in slash format) to get started.")
-    birth_date_string = get_valid_date_string(">>> ")
     # Find total days between two dates (birth date and current date)
-    total_days_lived = convert_date_to_days(convert_date_string(CURRENT_DATE_STRING, "/")) - convert_date_to_days(convert_date_string(birth_date_string, "/"))
+    total_days_lived = calc_total_days(CURRENT_DATE) - calc_total_days(get_valid_date(">>> "))
     # Calculate exact age
     years, months, days = calc_exact_age(total_days_lived)
     print(f"You are {years} years, {months} months, and {days} days old.")
     print(f"Today is your {total_days_lived + 1}{find_ordinal(total_days_lived + 1)} day on earth.")
 
 
-def convert_date_to_days(date):
+def get_valid_date(prompt="Date: ", error="Invalid date", separator="/"):
+    """Get a valid date input from the user."""
+    months_dict = {1: 31, 2: 29, 3: 31, 4: 30, 5: 31, 6: 30,
+                   7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31}
+    day, month, year = 0, 0, 0
+    is_valid = False
+    while not is_valid:
+        try:
+            date_string = input(prompt)
+            parts = [int(part) for part in date_string.split(separator)]
+            day, month, year = parts[0], parts[1], parts[2]
+            if year >= 0 and 0 < month <= 12 and 0 < day <= months_dict[month]:
+                is_valid = True
+            else:
+                print(error)
+        except ValueError:
+            print(error)
+        except IndexError:
+            print(error)
+    return day, month, year
+
+
+def calc_total_days(date=(1, 1, 2000)):
     """Convert date to total days since 0 A.D.
     Date passed in must be tuple in form (day, month, year)."""
     total_days = 1  # Starting from Jan 1st, 0 A.D
@@ -51,32 +72,6 @@ def convert_date_to_days(date):
             total_days += MONTHS_DICT[month_to_add]
     total_days += day
     return total_days
-
-
-def get_valid_date_string(prompt):
-    """Get a valid date string input eg. '01/01/2000'"""
-    date_string = ""
-    is_valid = False
-    while not is_valid:
-        try:
-            date_string = input(prompt)
-            day, month, year = convert_date_string(date_string, "/")
-            if year not in range(1, CURRENT_DATE.year + 1) or month not in range(1, 13) or day not in range(1, 32):
-                print("Invalid date")
-            else:
-                is_valid = True
-        except ValueError:
-            print("Invalid date")
-        except IndexError:
-            print("Invalid date")
-    return date_string
-
-
-def convert_date_string(date_string, separator):
-    """Return day, month, and year of date string."""
-    date_list = [int(part) for part in date_string.split(separator)]
-    day, month, year = date_list[0], date_list[1], date_list[2]
-    return day, month, year
 
 
 def is_leap_year(year):
@@ -98,10 +93,7 @@ def find_ordinal(number):
     """Return the ordinal of a number."""
     special_ordinals = {1: "st", 2: "nd", 3: "rd"}
     last_digit = int(str(number)[-1])
-    if last_digit in special_ordinals:
-        return special_ordinals[last_digit]
-    else:
-        return "th"
+    return special_ordinals[last_digit] if last_digit in special_ordinals else "th"
 
 
 main()
