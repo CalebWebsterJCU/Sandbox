@@ -29,8 +29,9 @@ def main():
     total_days_lived = calc_total_days(CURRENT_DATE) - calc_total_days(get_valid_date(">>> "))
     # Calculate exact age
     years, months, days = calc_exact_age(total_days_lived)
-    print(f"You are {years} years, {months} months, and {days} days old.")
-    print(f"Today is your {GREEN}{total_days_lived + 1}{END}{find_ordinal(total_days_lived + 1)} day on earth.")
+    print("You are {} years, {} months, and {} days old.".format(years, months, days))
+    print("Today is your {}{} day on earth.".format(total_days_lived + 1,
+                                                    find_ordinal(total_days_lived + 1)))
 
 
 def get_valid_date(prompt="Date: ", error="Invalid date", separator="/"):
