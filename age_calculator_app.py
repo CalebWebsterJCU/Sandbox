@@ -37,7 +37,9 @@ Please enter your date of birth (in slash format) to get started."""
         day, month, year = self.get_valid_date()
         total_days_lived = calc_total_days(CURRENT_DATE) - calc_total_days((day, month, year))
         years, months, days = calc_exact_age(total_days_lived)
-        self.age_output_text = f"You are {years} years, {months} months, and {days} days old.\nToday is your {total_days_lived + 1}{find_ordinal(total_days_lived + 1)} day on earth."
+        self.age_output_text = """You are {} years, {} months, and {} days old.
+        Today is your {}{} day on earth.""".format(years, months, days, total_days_lived + 1,
+                                                   find_ordinal(total_days_lived + 1))
 
     def get_valid_date(self):
         """Get date, returning default date if it is invalid."""
