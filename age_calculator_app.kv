@@ -3,16 +3,23 @@ BoxLayout:
 	Label:
 		id: welcome_message_box
 		text: app.welcome_message
+		font_size: 18
 		halign: "center"
 	BoxLayout:
 		orientation: "horizontal"
 		TextInput:
 			id: date_input_box
 			multiline: False
+			font_size: 50
+			halign: "center"
 		Button:
 			id: calc_age_button
 			text: "Calculate"
-			on_press: app.handle_calculate()
+			color: 0, 1, 0.5, 1
+			font_size: 30
+			on_press: app.handle_calculate_age()
 	Label:
 		id: age_output_box
 		text: app.age_output_text
+		font_size: 18
+		halign: "center"
