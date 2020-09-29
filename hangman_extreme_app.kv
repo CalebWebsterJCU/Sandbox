@@ -1,0 +1,27 @@
+BoxLayout:
+    orientation: "vertical"
+    Label:
+        id: word_reveal_box
+        text: app.revealed_word
+        halign: "center"
+        valign: "center"
+        font_size: 20
+    BoxLayout:
+        orientation: "horizontal"
+        TextInput:
+            id: guess_input_box
+            multiline: False
+            font_size: 75
+        Button:
+            id: guess_button
+            text: "Guess"
+            font_size: 50
+            on_press: app.handle_guess()
+    Label:
+        id: guess_info_box
+        text: app.guess_info
+        font_size: 20
+    Label:
+        id: gallows_box
+        text: app.gallows
+        font_size: 20
