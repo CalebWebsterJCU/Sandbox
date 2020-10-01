@@ -4,6 +4,64 @@ BoxLayout:
     ScreenManager:
         id: screen_manager
         Screen:
+            name: "start_screen"
+            BoxLayout:
+                orientation: "vertical"
+                Label:
+                    id: game_result_box
+                    size_hint_y: 1.5
+                    text: app.game_result
+                    font_size: 80
+                Label:
+                    id: game_info_box
+                    size_hint_y: 1.25
+                    text: app.game_info
+                    font_size: 30
+                BoxLayout:
+                    orientation: "horizontal"
+                    size_hint_y: 0.4
+                    Label:
+                        text: "Word to Guess"
+                        font_size: 18
+                    Label:
+                        size_hint_x: 0.3
+                        text: "Number of Hints"
+                        font_size: 18
+                BoxLayout:
+                    orientation: "horizontal"
+                    TextInput:
+                        id: word_input_box
+                        password: True
+                        password_mask: "*"
+                        multiline: False
+                        font_size: 75
+                        halign: "center"
+                        on_text: app.capitalize_input(word_input_box)
+                    TextInput:
+                        id: hints_input_box
+                        size_hint_x: 0.3
+                        multiline: False
+                        font_size: 75
+                        halign: "center"
+                BoxLayout:
+                    orientation: "horizontal"
+                    Button:
+                        text: "Start Game"
+                        font_size: 40
+                        on_press:
+                            app.handle_start_game()
+                    Button:
+                        text: "Clear"
+                        font_size: 40
+                        on_press:
+                            app.clear_input_box(word_input_box)
+                            app.clear_input_box(hints_input_box)
+                            app.invalid_input_text = ""
+                Label:
+                    id: invalid_input_box
+                    text: app.invalid_input_text
+                    font_size: 25
+        Screen:
             name: "game_screen"
             BoxLayout:
                 orientation: "vertical"
@@ -22,13 +80,17 @@ BoxLayout:
                         multiline: False
                         font_size: 110
                         halign: "center"
-                        on_text: app.control_input()
+                        on_text:
+                            app.capitalize_input(guess_input_box)
+                            app.limit_characters(guess_input_box, 1)
                     Button:
                         id: guess_button
                         text: "Guess"
                         font_size: 50
                         halign: "center"
-                        on_press: app.handle_guess()
+                        on_press:
+                            app.handle_guess()
+                            app.clear_input_box(guess_input_box)
                     Button:
                         id: hint_button
                         text: app.hint_button_text
@@ -47,45 +109,3 @@ BoxLayout:
                     valign: "middle"
                     font_size: 35
                     font_name: "Consolas"
-        Screen:
-            name: "end_screen"
-            BoxLayout:
-                orientation: "vertical"
-                Label:
-                    id: game_result_box
-                    text: app.game_result
-                    font_size: 100
-                Label:
-                    id: game_info_box
-                    size_hint_y: 0.5
-                    text: app.game_info
-                    font_size: 25
-                Button:
-                    id: play_again_button
-                    size_hint_y: 0.5
-                    text: "Play Again"
-                    font_size: 50
-                    on_press: app.reset_game()
-        Screen:
-            name: "new_game_screen"
-            BoxLayout:
-                orientation: "vertical"
-                Label:
-                BoxLayout:
-                    orientation: "horizontal"
-                        TextInput:
-                        Button:
-                        Button:
-                            text: "Clear"
-                            font_size: 50
-                            on_press: app.clear_
-                BoxLayout:
-                    orientation: "horizontal"
-                        TextInput:
-                        Button:
-                        Button:
-                            text: "Clear"
-                            font_size: 50
-                            on_press: app.clear_
-                Button:
-
