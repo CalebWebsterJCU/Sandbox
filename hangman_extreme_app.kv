@@ -1,27 +1,91 @@
 BoxLayout:
     orientation: "vertical"
-    Label:
-        id: word_reveal_box
-        text: app.revealed_word
-        halign: "center"
-        valign: "center"
-        font_size: 20
-    BoxLayout:
-        orientation: "horizontal"
-        TextInput:
-            id: guess_input_box
-            multiline: False
-            font_size: 75
-        Button:
-            id: guess_button
-            text: "Guess"
-            font_size: 50
-            on_press: app.handle_guess()
-    Label:
-        id: guess_info_box
-        text: app.guess_info
-        font_size: 20
-    Label:
-        id: gallows_box
-        text: app.gallows
-        font_size: 20
+
+    ScreenManager:
+        id: screen_manager
+        Screen:
+            name: "game_screen"
+            BoxLayout:
+                orientation: "vertical"
+                Label:
+                    id: word_reveal_box
+                    size_hint_y: 0.5
+                    text: app.revealed_word
+                    halign: "center"
+                    valign: "center"
+                    font_size: 20
+                BoxLayout:
+                    orientation: "horizontal"
+                    size_hint_y: 0.5
+                    TextInput:
+                        id: guess_input_box
+                        multiline: False
+                        font_size: 110
+                        halign: "center"
+                        on_text: app.control_input()
+                    Button:
+                        id: guess_button
+                        text: "Guess"
+                        font_size: 50
+                        halign: "center"
+                        on_press: app.handle_guess()
+                    Button:
+                        id: hint_button
+                        text: app.hint_button_text
+                        font_size: 40
+                        halign: "center"
+                        on_press: app.handle_use_hint()
+                Label:
+                    id: guess_info_box
+                    size_hint_y: 0.2
+                    text: app.guess_info
+                    font_size: 20
+                Label:
+                    id: gallows_box
+                    text: app.gallows
+                    halign: "center"
+                    valign: "middle"
+                    font_size: 35
+                    font_name: "Consolas"
+        Screen:
+            name: "end_screen"
+            BoxLayout:
+                orientation: "vertical"
+                Label:
+                    id: game_result_box
+                    text: app.game_result
+                    font_size: 100
+                Label:
+                    id: game_info_box
+                    size_hint_y: 0.5
+                    text: app.game_info
+                    font_size: 25
+                Button:
+                    id: play_again_button
+                    size_hint_y: 0.5
+                    text: "Play Again"
+                    font_size: 50
+                    on_press: app.reset_game()
+        Screen:
+            name: "new_game_screen"
+            BoxLayout:
+                orientation: "vertical"
+                Label:
+                BoxLayout:
+                    orientation: "horizontal"
+                        TextInput:
+                        Button:
+                        Button:
+                            text: "Clear"
+                            font_size: 50
+                            on_press: app.clear_
+                BoxLayout:
+                    orientation: "horizontal"
+                        TextInput:
+                        Button:
+                        Button:
+                            text: "Clear"
+                            font_size: 50
+                            on_press: app.clear_
+                Button:
+
