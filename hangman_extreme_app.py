@@ -10,8 +10,6 @@ from kivy.core.window import Window
 from kivy.properties import StringProperty
 import random
 
-WORDS_FILE = "words.txt"
-
 
 class HangmanExtreme(App):
     """Hangman game in which a user tries to guess
