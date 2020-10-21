@@ -1,3 +1,5 @@
+<Button>:
+    background_color: (1, .2, 0, 1)
 BoxLayout:
     orientation: "vertical"
 
@@ -36,7 +38,9 @@ BoxLayout:
                         multiline: False
                         font_size: 75
                         halign: "center"
-                        on_text: app.capitalize_input(word_input_box)
+                        on_text:
+                            app.capitalize_input(word_input_box)
+                            app.allow_certain_characters(word_input_box)
                     TextInput:
                         id: hints_input_box
                         size_hint_x: 0.3
@@ -54,8 +58,7 @@ BoxLayout:
                         text: "Clear"
                         font_size: 40
                         on_press:
-                            app.clear_input_box(word_input_box)
-                            app.clear_input_box(hints_input_box)
+                            app.clear_widget_text(word_input_box, hints_input_box)
                             app.invalid_input_text = ""
                 Label:
                     id: invalid_input_box
@@ -71,7 +74,7 @@ BoxLayout:
                     text: app.revealed_word
                     halign: "center"
                     valign: "center"
-                    font_size: 20
+                    font_size: 30
                 BoxLayout:
                     orientation: "horizontal"
                     size_hint_y: 0.5
@@ -83,6 +86,7 @@ BoxLayout:
                         on_text:
                             app.capitalize_input(guess_input_box)
                             app.limit_characters(guess_input_box, 1)
+                            app.allow_certain_characters(guess_input_box)
                     Button:
                         id: guess_button
                         text: "Guess"
@@ -90,7 +94,7 @@ BoxLayout:
                         halign: "center"
                         on_press:
                             app.handle_guess()
-                            app.clear_input_box(guess_input_box)
+                            app.clear_widget_text(guess_input_box)
                     Button:
                         id: hint_button
                         text: app.hint_button_text
