@@ -35,6 +35,13 @@ class TimeSlot:
         """
         return f"{self.start_time} - {self.end_time}"
 
+    def __repr__(self):
+        """
+        Define rules for displaying time slots in a list.
+        :return: "{self.start_time} - {self.end_time}"
+        """
+        return f"{self.start_time} - {self.end_time}"
+
     def __lt__(self, other):
         """
         Compare self and other TimeSlot objects, returning True if self.start_time is less than other.start_time.
@@ -45,10 +52,7 @@ class TimeSlot:
 
     def conv_to_min(self):
         """
-        If reverse = False, convert military time string to a number of minutes.
-        If reverse = True, Convert a number of minutes to a military time string.
-        Time strings must be in military time format e.g. 15:00 (no seconds)
-        Number of minutes must be an integer
+        Return time slot with times converted to total minutes from military time strings.
         :return: tuple of start_time.minutes & end_time.minutes
         """
         return self.start_time.total_minutes, self.end_time.total_minutes

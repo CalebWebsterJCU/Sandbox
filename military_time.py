@@ -36,6 +36,13 @@ class Time:
         """
         return f"{self.hour:2}:{self.minute:02}"
 
+    def __repr__(self):
+        """
+        Define rules for displaying time objects in a list.
+        :return: "{self.hour:2}:{self.minute:02}"
+        """
+        return f"{self.hour:2}:{self.minute:02}"
+
     def __lt__(self, other):
         """
         Compare self to other time object, returning True if self comes before other, e.g. "01:00" < "02:00"
