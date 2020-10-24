@@ -4,7 +4,7 @@ Time Slot
 This class represents a set of two times of day which form a time interval with a start and end time.
 Times are military time strings and can be converted to minutes e.g. "15:00" -> 900 minutes
 attributes: self.start_time, self.end_time
-methods: self.calc_interval(), self.is_after_noon(), self.is_work_hours(), self.conv_to_min()
+methods: conv_to_min(), is_work_hours(), is_after_noon(), calc_interval(), conv_to_standard(), is_valid()
 """
 
 from military_time import MilitaryTime
@@ -13,7 +13,12 @@ WORK_HOURS = ("9:00", "17:00")  # 9am to 5pm
 
 
 class TimeSlot:
-    """Represent a military time interval with a start and end time."""
+    """
+    Represent a military time interval with a start and end time.
+    Times must be objects of Time class
+    attributes: self.start_time, self.end_time
+    methods: conv_to_min(), is_work_hours(), is_after_noon(), calc_interval(), conv_to_standard(), is_valid()
+    """
 
     def __init__(self, start_time=MilitaryTime(), end_time=MilitaryTime()):
         """

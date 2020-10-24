@@ -1,14 +1,13 @@
 """
-Time
+Military Time
 24/10/2020
 Represents a military time of day e.g. 13:00
 Time is a string and can be represented in total minutes, e.g. "00:00" -> 0 minutes, "10:00" -> 600 minutes
 attributes: self.time, self.minutes
-methods: self.is_work_hours(), self.conv_to_standard()
+methods: comparisons (__lt__(), __add__(), etc.), is_work_hours(), conv_to_standard()
 """
 
-WORK_HOURS = ("9:00", "17:00")
-NOON_MINUTES = 720
+WORK_HOURS = ("9:00", "17:00")  # 9am to 5pm
 
 
 class MilitaryTime:
@@ -16,7 +15,7 @@ class MilitaryTime:
     Represent military time object with string and minutes.
     Time must be passed in as a string
     attributes: self.time, self.minutes
-    methods: self.is_work_hours(), self.conv_to_standard()
+    methods: comparisons (__lt__(), __add__(), etc.), is_work_hours(), conv_to_standard()
     """
 
     def __init__(self, time="00:00"):
@@ -27,7 +26,7 @@ class MilitaryTime:
         self.hour, self.minute = [int(part) for part in time.split(":")]
         self.time = f"{self.hour:02}:{self.minute:02}"
         self.total_minutes = self.hour * 60 + self.minute
-        self.is_after_noon = self.total_minutes >= NOON_MINUTES
+        self.is_after_noon = self.total_minutes >= 720
         self.is_valid = 0 <= self.total_minutes < 1440
 
     def __str__(self):
