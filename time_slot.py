@@ -4,7 +4,7 @@ Time Slot
 This class represents a set of two times of day which form a time interval with a start and end time.
 Times are military time strings and can be converted to minutes e.g. "15:00" -> 900 minutes
 attributes: self.start_time, self.end_time
-methods: self.calc_interval(), self.is_after_noon(), self.is_work_hours(), self.convert_to_minutes()
+methods: self.calc_interval(), self.is_after_noon(), self.is_work_hours(), self.conv_to_min()
 """
 
 from military_time import MilitaryTime
@@ -61,6 +61,23 @@ class TimeSlot:
         """
         return self.end_time - self.start_time
 
+    def conv_to_standard(self):
+        """
+        Return time slot with times converted to standard times instead of military.
+        :return: Time slot with start_time and end_time converted to standard form
+        """
+        if self.is_valid():
+            return f"{self.start_time.conv_to_standard()} - {self.end_time.conv_to_standard()}"
+        return "Invalid time slot"
+
+    def is_valid(self):
+        """
+        Return True if time slot is valid, False if it is not.
+        Time slot is valid if both times are valid and end time is greater than end time.
+        :return: True or False
+        """
+        return self.start_time.is_valid and self.end_time.is_valid and self.end_time > self.start_time
+
 
 if __name__ == '__main__':
     time_slot1 = TimeSlot(MilitaryTime("10:00"), MilitaryTime("15:00"))
@@ -70,4 +87,6 @@ if __name__ == '__main__':
     assert time_slot1.is_work_hours()
     assert not time_slot1.is_after_noon()
     assert time_slot1.calc_interval() == 300
+    print(time_slot1.conv_to_standard())
+    assert time_slot1.is_valid()
 

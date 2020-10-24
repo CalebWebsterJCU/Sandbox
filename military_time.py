@@ -114,7 +114,7 @@ class MilitaryTime:
             if hours == 0:
                 hours = 12
             return f"{hours}:{minutes:02}{meridian}"
-        return "Invalid Date"
+        return "Invalid time"
 
 
 if __name__ == '__main__':
