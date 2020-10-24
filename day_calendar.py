@@ -1,0 +1,60 @@
+"""
+Day Calendar
+24/10/2020
+This class represents a person's day calendar, a list of busy time slots for a specific day.
+Busy time slots are objects of TimeSlot class which are added to a list.
+Attributes: self.name, self.time_slots
+Methods: add_time_slot(), remove_time_slot(), convert_to_min(),
+is_valid(), load_time_slots(), save_time_slots(), sort_time_slots()
+"""
+
+from time_slot import TimeSlot
+from military_time import Time
+
+
+class DayCalendar:
+    """
+    Represent a person's calendar for a day.
+    Items in self.time_slots must be objects of class TimeSlot
+    Attributes: self.name, self.time_slots
+    Methods: add_time_slot(), remove_time_slot(), convert_to_min(),
+    is_valid(), load_time_slots(), save_time_slots(), sort_time_slots()
+    """
+
+    def __init__(self, name=""):
+        """Create DayCalendar object, setting self.name and self.time_slots."""
+        self.name = name
+        self.time_slots = []
+
+    def __str__(self):
+        """
+        Define rules for printing day calendars.
+        :return: string of name + all time slots
+        """
+        class_string = f"{self.name}'s Calender ({len(self.time_slots)} time slots):"
+        for time_slot in self.time_slots:
+            class_string += f"\n{time_slot}"
+        return class_string
+
+    def add_time_slot(self, time_slot=TimeSlot()):
+        """Append time slot to time_slots list."""
+        self.time_slots.append(time_slot)
+
+    def load_time_slots(self, filename):
+        """Read time slots from file and add them to time_slots list."""
+        with open(filename, 'r') as file_in:
+            for line in file_in:
+                try:
+                    start_time, end_time = [Time(part) for part in line.strip().split(",")]
+                    self.time_slots.append(TimeSlot(start_time, end_time))
+                except ValueError:
+                    continue
+                except IndexError:
+                    continue
+
+
+if __name__ == '__main__':
+    calendar1 = DayCalendar("Caleb Webster")
+    # calendar1.time_slots = [TimeSlot(Time("9:00"), Time("10:00")), TimeSlot(Time("13:00"), Time("14:30")), TimeSlot(Time("16:20"), Time("17:00"))]
+    calendar1.load_time_slots("my_calendar.csv")
+    print(calendar1)

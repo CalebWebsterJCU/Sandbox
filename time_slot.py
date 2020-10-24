@@ -7,7 +7,7 @@ attributes: self.start_time, self.end_time
 methods: conv_to_min(), is_work_hours(), is_after_noon(), calc_interval(), conv_to_standard(), is_valid()
 """
 
-from military_time import MilitaryTime
+from military_time import Time
 
 WORK_HOURS = ("9:00", "17:00")  # 9am to 5pm
 
@@ -20,9 +20,9 @@ class TimeSlot:
     methods: conv_to_min(), is_work_hours(), is_after_noon(), calc_interval(), conv_to_standard(), is_valid()
     """
 
-    def __init__(self, start_time=MilitaryTime(), end_time=MilitaryTime()):
+    def __init__(self, start_time=Time(), end_time=Time()):
         """
-        Initialize TimeSlot class, setting start_time and end_time.
+        Create TimeSlot object, setting start_time and end_time.
         start_time and end_time must be strings
         """
         self.start_time = start_time
@@ -34,6 +34,14 @@ class TimeSlot:
         :return: "{self.start_time} - {self.end_time}"
         """
         return f"{self.start_time} - {self.end_time}"
+
+    def __lt__(self, other):
+        """
+        Compare self and other TimeSlot objects, returning True if self.start_time is less than other.start_time.
+        :param other: TimeSlot object to compare to self
+        :return: True or False
+        """
+        return self.start_time < other.start_time
 
     def conv_to_min(self):
         """
@@ -85,7 +93,7 @@ class TimeSlot:
 
 
 if __name__ == '__main__':
-    time_slot1 = TimeSlot(MilitaryTime("10:00"), MilitaryTime("15:00"))
+    time_slot1 = TimeSlot(Time("10:00"), Time("15:00"))
     assert isinstance(time_slot1.start_time, object)
     assert isinstance(time_slot1.end_time, object)
     print(time_slot1)
