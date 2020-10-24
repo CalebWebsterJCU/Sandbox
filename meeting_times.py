@@ -1,5 +1,5 @@
 """
-Meeting Times
+meeting_times
 23/10/2020
 This program takes two peoples' calendars and displays possible time slots during which they can have a meeting.
 Times given must be within working hours (9:00 - 17:00)
