@@ -52,9 +52,16 @@ class DayCalendar:
                 except IndexError:
                     continue
 
+    def save_time_slots(self, filename):
+        """Write time slots in list to a file."""
+        with open(filename, 'w') as file_out:
+            file_out.writelines((f"{time_slot.start_time.time},{time_slot.end_time.time}\n" for time_slot in self.time_slots))
+
 
 if __name__ == '__main__':
     calendar1 = DayCalendar("Caleb Webster")
     # calendar1.time_slots = [TimeSlot(Time("9:00"), Time("10:00")), TimeSlot(Time("13:00"), Time("14:30")), TimeSlot(Time("16:20"), Time("17:00"))]
     calendar1.load_time_slots("my_calendar.csv")
+    calendar1.add_time_slot(TimeSlot(Time("13:30"), Time("14:00")))
     print(calendar1)
+    calendar1.save_time_slots("my_calendar.csv")
