@@ -73,12 +73,17 @@ class DayCalendar:
 
 if __name__ == '__main__':
     calendar1 = DayCalendar("Caleb Webster")
-    calendar1.time_slots = [TimeSlot(Time("9:00"), Time("10:00")), TimeSlot(Time("13:00"), Time("14:30")), TimeSlot(Time("16:20"), Time("17:00"))]
+    calendar1.time_slots = [
+        TimeSlot(Time("9:00"), Time("10:00")),
+        TimeSlot(Time("11:00"), Time("12:45")),
+        TimeSlot(Time("13:00"), Time("14:30")),
+        TimeSlot(Time("16:20"), Time("17:00")),
+    ]
     # calendar1.load_time_slots("my_calendar.csv")
-    print(repr(calendar1.time_slots))
     time_slot_to_add = TimeSlot(Time("13:30"), Time("14:00"))
     calendar1.add_time_slot(time_slot_to_add)
     calendar1.remove_time_slot(time_slot_to_add)
     print(calendar1)
+    print(calendar1.time_slots)
     print(calendar1.conv_to_min())
     calendar1.save_time_slots("my_calendar.csv")
