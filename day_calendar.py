@@ -50,9 +50,7 @@ class DayCalendar:
         Return time slots list with times converted to total minutes from military time strings.
         :return: list of converted time slots
         """
-        converted_time_slots = self.time_slots.copy()
-        for time_slot in converted_time_slots:
-            time_slot = time_slot.conv_to_min()
+        converted_time_slots = [time_slot.conv_to_min() for time_slot in self.time_slots.copy()]
         return converted_time_slots
 
     def load_time_slots(self, filename):
@@ -82,5 +80,5 @@ if __name__ == '__main__':
     calendar1.add_time_slot(time_slot_to_add)
     calendar1.remove_time_slot(time_slot_to_add)
     print(calendar1)
-    # print(calendar1.conv_to_min())
+    print(calendar1.conv_to_min())
     calendar1.save_time_slots("my_calendar.csv")

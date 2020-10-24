@@ -40,7 +40,7 @@ class TimeSlot:
         Define rules for displaying time slots in a list.
         :return: "{self.start_time} - {self.end_time}"
         """
-        return f"{self.start_time} - {self.end_time}"
+        return f"({self.start_time}, {self.end_time})"
 
     def __lt__(self, other):
         """
