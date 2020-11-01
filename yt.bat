@@ -1,1 +1,1 @@
-@pyw Z:\2Pycharm_Projects\Sandbox\youtube_search.py %*
+@pyw Z:\2Pycharm_Projects\Sandbox\youtube.py %*
