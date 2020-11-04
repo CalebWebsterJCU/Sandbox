@@ -65,10 +65,18 @@ def find_common_bits(binary_numbers):
     :return: binary string of common bits
     """
     c_bits = ""
-    for x in range(8):
+    x = 0
+    bits = [number[x] for number in binary_numbers]
+    while items_are_equal(bits):
+        c_bits += bits[0]
+        x += 1
         bits = [number[x] for number in binary_numbers]
-        if items_are_equal(bits):
-            c_bits += bits[0]
+    # for x in range(8):
+    #     bits = [number[x] for number in binary_numbers]
+    #     if items_are_equal(bits):
+    #         c_bits += bits[0]
+    #     else:
+    #         break
     return c_bits
 
 
