@@ -1,13 +1,5 @@
 import os
 import shutil
-from extract_icon import Image
-
-# os.chdir(r'C:\Users\Caleb Webster\Desktop')
-# print(os.getcwd())
-# for filename in os.listdir('.'):
-#     print(filename)
-# file_to_open = input('>>> ')
-# os.startfile(file_to_open)
 
 from kivy.app import App
 from kivy.lang import Builder
