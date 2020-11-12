@@ -13,16 +13,19 @@ from selenium import webdriver
 
 STAT_NAMES = ["Name", "Level", "Rank", "LP", "Win Rate (last 10 games)", "Average KDA", "Season Wins", "Season Losses", "Season Win Rate", "Season Most Played Champion", "Average KDA as Champion"]
 REGIONS_TO_URLS = {"Oceania": "oce", "Korea": "kr", "Japan": "jp", "North America": "na", "Europe West": "euw", "Europe Nordic & East": "eune", "Brazil": "br", "LAS": "las", "lAN": "lan", "Russia": "ru", "Turkey": "tr"}
-STARTING_REGION = "oce"
+DEFAULT_STARTING_REGION = "oce"
 HEADERS = {"User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Mobile Safari/537.36"}
 CHROME_DRIVER_PATH = r"C:\Program Files\Chrome Driver\chromedriver.exe"
 
 
 def main():
     """Get summoner name. While name is not blank, request information from op.gg and display summoner's statistics."""
-    region = STARTING_REGION
-    if len(sys.argv) > 1:
-        summoner_name = ''.join(sys.argv[1:])
+    if len(sys.argv) > 1 and sys.argv[1] in REGIONS_TO_URLS.values():
+        region = sys.argv[1]
+    else:
+        region = DEFAULT_STARTING_REGION
+    if len(sys.argv) > 2:
+        summoner_name = ''.join(sys.argv[2:])
     else:
         summoner_name = '+'.join(input(f"Summoner name (! to change region): ").split(' '))
     while summoner_name:
