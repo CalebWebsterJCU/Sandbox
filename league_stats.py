@@ -10,7 +10,6 @@ import sys
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from colours import BOLD, YELLOW, END
 
 STAT_NAMES = ["Name", "Level", "Rank", "LP", "Win Rate (last 10 games)", "Average KDA", "Season Wins", "Season Losses", "Season Win Rate", "Season Most Played Champion", "Average KDA as Champion"]
 REGIONS_TO_URLS = {"Oceania": "oce", "Korea": "kr", "Japan": "jp", "North America": "na", "Europe West": "euw", "Europe Nordic & East": "eune", "Brazil": "br", "LAS": "las", "lAN": "lan", "Russia": "ru", "Turkey": "tr"}
@@ -25,7 +24,7 @@ def main():
     if len(sys.argv) > 1:
         summoner_name = ''.join(sys.argv[1:])
     else:
-        summoner_name = '+'.join(input(f"{BOLD}Summoner name{END} (! to change region): ").split(' '))
+        summoner_name = '+'.join(input(f"Summoner name (! to change region): ").split(' '))
     while summoner_name:
         if summoner_name == '!':
             region = change_region()
@@ -38,18 +37,18 @@ def main():
                 # open_page(url, CHROME_DRIVER_PATH)
             else:
                 print("This summoner is not registered at OP.GG. Please check spelling.")
-        summoner_name = '+'.join(input(f"\n{BOLD}Summoner name{END} (! to change region): ").split(' '))
+        summoner_name = '+'.join(input(f"\nSummoner name (! to change region): ").split(' '))
 
 
 def change_region():
     """Display region options and keep getting input until user enters a valid region."""
-    print(f"{YELLOW}Region Keys:{END}")
+    print(f"Region Keys:")
     for name, url in REGIONS_TO_URLS.items():
         print(f"{name}: {url}")
-    region = input(f"{BOLD}Region: {END}")
+    region = input(f"Region: ")
     while region not in REGIONS_TO_URLS.values():
         print("Invalid region")
-        region = input(f"{BOLD}\nRegion: {END}")
+        region = input(f"\nRegion: ")
     print(f"Region changed to {list(REGIONS_TO_URLS.keys())[list(REGIONS_TO_URLS.values()).index(region)]}")
     return f"{region}" if region != "kr" else 'www'
 
