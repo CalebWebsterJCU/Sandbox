@@ -7,7 +7,7 @@
     valign: "top"
     padding: 0, 5
 <SectionLabel>:
-    font_size: 25
+    font_size: 23
     text_size: self.size
     halign: "left"
     valign: "middle"
@@ -19,22 +19,34 @@ BoxLayout:
         BoxLayout:
             orientation: 'vertical'
             size_hint_x: 0.3
+            Label:
+                text: "Category Sorting"
             Spinner:
                 text: 'Name'
-                values:
+                values: ("Name", "No. Games", )
+            Label:
+                text: "Game Sorting"
+            Spinner:
+                text: ""
             Button:
             Button:
             Button:
             Button:
             Button:
-        ScrollView:
-            do_scroll_x: False
-            do_scroll_y: True
-            scroll_wheel_distance: 50
-            bar_width: 2
-            BoxLayout:
-                orientation: 'vertical'
-                id: games_box
-                padding: 10, 10
-                size_hint_y: None
-                height: app.games_box_height
+        BoxLayout:
+            orientation: "vertical"
+            ScrollView:
+                do_scroll_x: False
+                do_scroll_y: True
+                scroll_wheel_distance: 50
+                bar_width: 2
+                BoxLayout:
+                    orientation: 'vertical'
+                    id: games_box
+                    padding: 10, 10
+                    size_hint_y: None
+                    height: app.games_box_height
+            Label:
+                size_hint_y: 0.075
+                text: app.info_text
+                font_size: 20
