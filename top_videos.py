@@ -21,7 +21,13 @@ def main():
     region_code = get_valid_region_code(valid_region_codes, DEFAULT_REGION)
     videos = get_top_videos(youtube, num_of_videos, region_code)
     print_videos(videos, valid_region_codes[region_code])
-    print(valid_region_codes)
+    print("\nRegion Codes:")
+    x = 0
+    for code, name in valid_region_codes.items():
+        x += 1
+        print(f"{code}: {name}", end=" | ")
+        if x % 5 == 0 and x != 0:
+            print()
 
 
 def get_num_videos(default=10):
