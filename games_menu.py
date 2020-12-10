@@ -88,7 +88,7 @@ class GamesMenu(App):
                 image = Image(source=images[x])
                 fav_img = Image(source=fav_star)
                 favourite = BoxButton(size_hint=(0.2, 0.2), on_release=self.fav_or_unfav)
-                name = GameLabel(text=games[x][:self.find_lpi(games[x])])
+                name = GameLabel(text=games[x][:games[x].rfind('.')])
 
                 button.folder = folder
                 button.game = games[x]
@@ -135,17 +135,17 @@ class GamesMenu(App):
         filename = instance.game
         if folder != "Favourites":
             print(os.listdir(rf"{GAMES_DIR}\Favourites"))
-            if filename not in os.listdir(rf"{GAMES_DIR}\Favourites") or f"{filename[:self.find_lpi(filename)]}.png" not in os.listdir(rf"{IMAGES_DIR}\Favourites"):
+            if filename not in os.listdir(rf"{GAMES_DIR}\Favourites") or f"{filename[:filename.rfind('.')]}.png" not in os.listdir(rf"{IMAGES_DIR}\Favourites"):
                 shutil.copy(rf"{GAMES_DIR}\{folder}\{filename}", rf"{GAMES_DIR}\Favourites\{filename}")
-                shutil.copy(rf"{IMAGES_DIR}\{folder}\{filename[:self.find_lpi(filename)]}.png", rf"{IMAGES_DIR}\Favourites\{filename[:-4]}.png")
-                self.info_text = f"{filename[:self.find_lpi(filename)]} added to favourites!"
+                shutil.copy(rf"{IMAGES_DIR}\{folder}\{filename[:filename.rfind('.')]}.png", rf"{IMAGES_DIR}\Favourites\{filename[:-4]}.png")
+                self.info_text = f"{filename[:filename.rfind('.')]} added to favourites!"
 
             else:
-                self.info_text = f"{filename[:self.find_lpi(filename)]} is already in favourites!"
+                self.info_text = f"{filename[:filename.rfind('.')]} is already in favourites!"
         else:
             os.remove(rf"{GAMES_DIR}\{folder}\{filename}")
-            os.remove(rf"{IMAGES_DIR}\{folder}\{filename[:self.find_lpi(filename)]}.png")
-            self.info_text = f"{filename[:self.find_lpi(filename)]} removed from favourites!"
+            os.remove(rf"{IMAGES_DIR}\{folder}\{filename[:filename.rfind('.')]}.png")
+            self.info_text = f"{filename[:filename.rfind('.')]} removed from favourites!"
         self.show_buttons()
 
     @staticmethod
@@ -176,20 +176,6 @@ class GamesMenu(App):
         """
         return os.listdir(rf"{GAMES_DIR}\{folder}")
 
-    @staticmethod
-    def find_lpi(filename):
-        """
-        Find the index of the last period in a filename,
-        indicating the beginning of the file extension
-        :param filename: name of file to examine
-        :return: integer value of index of last period
-        """
-        if filename and '.' in filename:
-            i = -1
-            while filename[i] != '.':
-                i -= 1
-            return i
-        return 0
 
     @staticmethod
     def rgba_to_percent(rgba):
