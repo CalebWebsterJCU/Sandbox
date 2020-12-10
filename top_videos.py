@@ -6,6 +6,7 @@ This program uses a web request to find the top trending youtube videos.
 
 import sys
 from googleapiclient.discovery import build
+from googleapiclient.http import HttpError
 
 DEFAULT_NUM = 10
 DEFAULT_REGION = 'AU'
@@ -14,9 +15,11 @@ API_KEY = 'AIzaSyB2IJ-j6nENGSFhZ3IxDym5uFvyIRTFUnA'
 
 def main():
     """Get number of videos, get details for popular videos, and print details."""
+    youtube = build('youtube', 'v3', developerKey=API_KEY)
+    valid_region_codes = [code['id'] for code in youtube.i18nRegions().list(part='snippet').execute()['items']]
     num_of_videos = get_num_videos(DEFAULT_NUM)
-    region_code = get_region_code(DEFAULT_REGION)
-    videos = get_top_videos(num_of_videos, region_code)
+    region_code = get_valid_region_code(valid_region_codes, DEFAULT_REGION)
+    videos = get_top_videos(youtube, num_of_videos, region_code)
     print_videos(videos, region_code)
 
 
@@ -30,21 +33,21 @@ def get_num_videos(default=10):
         return default
 
 
-def get_region_code(default='AU'):
+def get_valid_region_code(valid_codes, default='AU'):
     """Get and return region code from run command, otherwise return default."""
     try:
-        return sys.argv[2].upper()
+        region_code = sys.argv[2].upper()
+        return region_code if region_code in valid_codes else default
     except IndexError:
         return default
 
 
-def get_top_videos(n, r_c):
+def get_top_videos(yt_api, n, r_c):
     """Use the youtube API to retreive details of the most popular videos."""
     videos = []
-    youtube = build('youtube', 'v3', developerKey=API_KEY)
     # Perform 2 requests to youtube API for video details and statistics
-    snippets = youtube.videos().list(part='snippet', chart='mostPopular', maxResults=n, regionCode=r_c).execute()
-    statistics = youtube.videos().list(part='statistics', chart='mostPopular', maxResults=n, regionCode=r_c).execute()
+    snippets = yt_api.videos().list(part='snippet', chart='mostPopular', maxResults=n, regionCode=r_c).execute()
+    statistics = yt_api.videos().list(part='statistics', chart='mostPopular', maxResults=n, regionCode=r_c).execute()
     # Create lists of provided information
     ids = [video['id'] for video in snippets['items']]
     channel_ids = [video['snippet']['channelId'] for video in snippets['items']]
@@ -53,7 +56,7 @@ def get_top_videos(n, r_c):
 
     for i in range(len(titles)):
         # Get channel name from channel id
-        channel = youtube.channels().list(part='snippet', id=channel_ids[i], maxResults=1).execute()['items'][0]['snippet']['title']
+        channel = yt_api.channels().list(part='snippet', id=channel_ids[i], maxResults=1).execute()['items'][0]['snippet']['title']
         # Compile information into a single dictionary for each video
         video = {'title': titles[i], 'view_count': view_counts[i], 'channel': channel, 'url': f'https://www.youtube.com/watch?v={ids[i]}'}
         videos.append(video)
