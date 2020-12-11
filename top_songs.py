@@ -33,6 +33,7 @@ def get_songs_count():
 def get_top_songs(n):
     """Request and return a number of the top songs from billboard.com."""
     top_100 = requests.get("https://www.billboard.com/charts/hot-100")
+    top_100.raise_for_status()
     soup = BeautifulSoup(top_100.text, "html.parser")
     songs = []
     for song in soup.find_all("li", class_="chart-list__element")[:n]:
