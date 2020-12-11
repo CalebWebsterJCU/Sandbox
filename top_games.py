@@ -48,7 +48,7 @@ def get_top_games(n, platform):
     games = []
     metacritic = requests.get(
         f'https://www.metacritic.com/browse/games/release-date/new-releases/{platform}/metascore',
-        headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'}
+        headers={'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'}
     )
     metacritic.raise_for_status()
     soup = BeautifulSoup(metacritic.text, 'html.parser')
