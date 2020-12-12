@@ -1,3 +1,4 @@
+#! python3
 """
 Top Games
 2020
