@@ -5,17 +5,18 @@ Top Videos
 This program uses a web request to find the top trending youtube videos.
 """
 
+import os
 import sys
 from googleapiclient.discovery import build
 
 DEFAULT_NUM = 10
 DEFAULT_REGION = 'AU'
-API_KEY = 'AIzaSyB2IJ-j6nENGSFhZ3IxDym5uFvyIRTFUnA'
+GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
 
 
 def main():
     """Get number of videos, get details for popular videos, and print details."""
-    youtube = build('youtube', 'v3', developerKey=API_KEY)
+    youtube = build('youtube', 'v3', developerKey=GOOGLE_API_KEY)
     region_snippets = youtube.i18nRegions().list(part='snippet').execute()
     valid_region_codes = {code['snippet']['gl']: code['snippet']['name'] for code in region_snippets['items']}
     num_of_videos = get_num_videos(DEFAULT_NUM)
