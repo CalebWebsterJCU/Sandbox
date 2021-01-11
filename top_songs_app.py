@@ -48,19 +48,26 @@ class TopSongsApp:
         num_songs = Entry(top_frame, width=3, bd=3, font=self.SMALL_FONT)
         refresh_btn = Button(top_frame, bd=3, image=self.images['refresh'])
         
-        bottom_frame = LabelFrame(self.root, bd=3, relief=SUNKEN)
+        middle_frame = LabelFrame(self.root, bd=3, relief=SUNKEN)
         
-        top_frame.grid(row=0, column=0, padx=5, pady=5)
+        bottom_frame = LabelFrame(self.root, bd=3, relief=SUNKEN)
+        hover_label = Label(bottom_frame, text='', font=self.SMALL_FONT, anchor=W)
+        
+        top_frame.grid(row=0, column=0, padx=5, pady=5, sticky=W+E)
         title.grid(row=0, column=0, padx=75)
         num_songs.grid(row=0, column=1, padx=0)
         refresh_btn.grid(row=0, column=2, padx=15)
-        bottom_frame.grid(row=1, column=0, padx=5, pady=5, sticky=W+E)
+        middle_frame.grid(row=1, column=0, padx=5, pady=5, sticky=W+E)
+        bottom_frame.grid(row=2, column=0, padx=5, pady=5, sticky=W+E)
+        hover_label.grid(row=0, column=0)
         
         self.widgets['top_frame'] = top_frame
         self.widgets['title'] = title
         self.widgets['num_songs'] = num_songs
         self.widgets['refresh_btn'] = refresh_btn
+        self.widgets['middle_frame'] = middle_frame
         self.widgets['bottom_frame'] = bottom_frame
+        self.widgets['hover_label'] = hover_label
         self.widgets['song_frames'] = []
         
         self.create_song_widgets()
@@ -76,7 +83,7 @@ class TopSongsApp:
         max_name_length = 20
         max_artist_length = 15
         # Add song widgets to bottom frame.
-        bottom_frame = self.widgets['bottom_frame']
+        middle_frame = self.widgets['middle_frame']
         for x in range(len(self.songs)):
             song = self.songs[x]
             # Shorten song and artist name if they exceed the maximum values.
@@ -87,7 +94,7 @@ class TopSongsApp:
             loaded_image = ImageTk.PhotoImage(Image.open(io.BytesIO(image_data)).resize((30, 30)))
             self.images['album_covers'].append(loaded_image)
             # Create inner frame and buttons for song name, artist, album cover, and music video.
-            inner_frame = LabelFrame(bottom_frame, bd=3, relief=RAISED)
+            inner_frame = LabelFrame(middle_frame, bd=3, relief=RAISED)
             name_btn = Button(inner_frame, width=max_name_length, bd=0, text=shortened_name, padx=10, anchor=W, font=self.SMALL_FONT)
             artist_btn = Button(inner_frame, width=max_artist_length, bd=0, text=shortened_artist, padx=10, anchor=W, font=self.SMALL_FONT)
             album_btn = Button(inner_frame, bd=0, image=self.images['album_covers'][x])
@@ -98,9 +105,25 @@ class TopSongsApp:
             artist_btn.grid(row=0, column=1)
             album_btn.grid(row=0, column=2, padx=10)
             youtube_btn.grid(row=0, column=3, padx=10)
-            # Create and bind balloon tooltips to buttons.
-            
+            # Bind hover event to buttons to display info.
+            # TODO: album name & music video
+            name_btn.message = song['name']
+            artist_btn.message = song['artist']
+            name_btn.bind('<Enter>', self.button_hover)
+            artist_btn.bind('<Enter>', self.button_hover)
+            name_btn.bind('<Leave>', self.button_leave)
+            artist_btn.bind('<Leave>', self.button_leave)
             self.widgets['song_frames'].append(inner_frame)
+    
+    def button_hover(self, event):
+        """Update hover_label with message."""
+        button = event.widget
+        hover_label = self.widgets['hover_label']
+        hover_label.config(text=button.message)
+    
+    def button_leave(self, event):
+        hover_label = self.widgets['hover_label']
+        hover_label.config(text='')
     
     def get_top_songs(self):
         """Request and return a number of the top songs from billboard.com."""
